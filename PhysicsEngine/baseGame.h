@@ -1,5 +1,6 @@
 #pragma once
-
+#include "PhysObject.h"
+#include<vector>
 class baseGame {
 protected:
 
