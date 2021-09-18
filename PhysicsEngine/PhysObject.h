@@ -1,6 +1,7 @@
 #pragma once
 #include"GLM/glm.hpp"
 #include <string>
+#include "Shape.h"
 using std::string;
 
 using glm::vec2;
@@ -16,10 +17,12 @@ public:
 	//objects mass
 	float mass;
 	vec2 gravity;//defaults to 0,0
+	Shape collider;
 
+	PhysObject();
 	//Initializes pos and vel to defaults of (0,0)
 	PhysObject(float Mass, vec2 Gravity);
-
+	PhysObject(float Mass, vec2 Gravity, vec2 Pos);
 	//integrates velocity into position with provied time step given the delta time
 	void tickPhys(float delta);
 
@@ -29,5 +32,7 @@ public:
 	void addAccel(vec2 force);// increments total force without respects to mass
 	void addVel(vec2 force);// increments velocity without respects to mass
 	void addImpulse(vec2 force);// increments velocity with respects to mass
+
+	void draw() const;
 };
 

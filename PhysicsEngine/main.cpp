@@ -22,6 +22,9 @@ int main()
 	//--------------------------------------------------------------------------------------
 	while (!game->shouldClose()) {
 		game->tick();
+		while (game->shouldTickFixed()) {
+			game->tickFixed();
+		}
 		game->draw();
 	}
 	// Main game loop

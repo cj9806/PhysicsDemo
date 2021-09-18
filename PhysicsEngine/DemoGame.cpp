@@ -1,14 +1,38 @@
 #include "DemoGame.h"
 #include "RayLib/raylib.h"
-void DemoGame::onInit(){
-	objs = vector<PhysObject>();
-	objs.push_back(PhysObject(1.0f,glm::vec2(0,-1)));
-}
+
 void DemoGame::onDraw() const{
 	ClearBackground(RAYWHITE);
+	for (int i = 0; i < objs.size(); i++)
+	{
+		objs[i].draw();
+	}
 	
-	DrawCircle(objs[1].pos.x, objs[1].pos.y, .5, RED);
 }
 void DemoGame::onTickFixed() {
-	objs[1].tickPhys(accumulatedFixedTime);
+	/*for (int i=0; i < objs.size();i++)
+	{
+	
+	}*/
+	
+}
+void DemoGame::onTick() {
+	if (IsMouseButtonPressed(0)) {
+		PhysObject newObj;
+		glm::vec2 mosPos = glm::vec2(GetMouseX(), GetMouseY());
+		newObj.pos = mosPos;
+		newObj.vel.x = GetRandomValue(-10, 10);
+		newObj.vel.y = GetRandomValue(-10, 10);
+
+		int shapeChoose = GetRandomValue(1, 2);
+		if (shapeChoose == 1) {
+			newObj.collider.type = shapeType::CIRCLE;
+		}
+		else newObj.collider.type = shapeType::AABB;
+		int width = GetRandomValue(10, 25);
+		int heigth = GetRandomValue(10, 25);
+		newObj.collider.rectData.extents = glm::vec2(width, heigth);
+
+		objs.push_back(newObj);
+	}
 }

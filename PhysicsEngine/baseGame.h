@@ -1,7 +1,13 @@
 #pragma once
 #include "PhysObject.h"
 #include<vector>
+#include<unordered_map>
+using std::vector;
+using collisionPair = uint8_t;
+using collisionFunc = bool(*)(const glm::vec2&, const Shape&, const glm::vec2&, const Shape&);
+using collisionMap = std::unordered_map<collisionPair, collisionFunc>;
 class baseGame {
+    collisionMap colmap;
 protected:
 
     float accumulatedFixedTime;
@@ -17,6 +23,7 @@ protected:
     // Called internally when game-specifc clean-up occurs
     void virtual onExit() { }
 public:
+    vector<PhysObject> objs;
     float targetFixedStep;
     float maxFixedStep;
     // Trivial constructor
