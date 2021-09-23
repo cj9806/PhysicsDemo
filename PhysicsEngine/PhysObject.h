@@ -17,7 +17,10 @@ public:
 	//objects mass
 	float mass;
 	vec2 gravity;//defaults to 0,0
+	//what shape the object is
 	Shape collider;
+	//if the object is static
+	bool isStatic;
 
 	PhysObject();
 	//Initializes pos and vel to defaults of (0,0)

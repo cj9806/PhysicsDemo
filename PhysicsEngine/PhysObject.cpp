@@ -11,6 +11,7 @@ PhysObject::PhysObject() {
 	collider = Shape{ shapeType::NONE };
 	mass = 1;
 	gravity = vec2(0, 0);
+	isStatic = false;
 }
 PhysObject::PhysObject(float Mass,vec2 Gravity) : PhysObject() {
 	
@@ -79,18 +80,22 @@ float resolveCollision(vec2 posA, vec2 velA, float massA,
 	return impulseMag;
 }
 
-void resolvePhysBodies(PhysObject &lhs, PhysObject &rhs, float elasticity, const glm::vec2 &normal, float& pen){
+void resolvePhysBodies(PhysObject& lhs, PhysObject& rhs, float elasticity, const glm::vec2& normal, float& pen) {
 	//calculate our resolution impulse
 	float impluseMagnitude = resolveCollision(lhs.pos, lhs.vel, lhs.mass,
-											  rhs.pos, rhs.vel, rhs.mass,
-											  elasticity, normal);
+		rhs.pos, rhs.vel, rhs.mass,
+		elasticity, normal);
 	vec2 impulse = impluseMagnitude * normal;
 	//depenetrate the objects
 	pen *= .51;
 	//apply resolution forces/impulses to both objects
 	vec2 correction = normal * pen;
-	lhs.pos += correction;
-	lhs.addImpulse(impulse);
+	if (!lhs.isStatic) {
+		lhs.pos += correction;
+		lhs.addImpulse(impulse);
+	}
+	if (!rhs.isStatic) {
 	rhs.pos -= correction;
 	rhs.addImpulse(-impulse);
+	}
 }
