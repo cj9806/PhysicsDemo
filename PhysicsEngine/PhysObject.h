@@ -36,3 +36,8 @@ public:
 	void draw() const;
 };
 
+float resolveCollision(vec2 posA, vec2 velA, float massA,
+					  vec2 posB, vec2 velB, float massB,
+					  float elasticity, vec2 normal);
+
+void resolvePhysBodies(PhysObject& lhs, PhysObject& rhs, float elasticity, const glm::vec2& normal, float& pen);

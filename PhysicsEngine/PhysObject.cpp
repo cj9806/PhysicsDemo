@@ -66,4 +66,31 @@ void PhysObject::draw() const {
 	}
 }
 
+float resolveCollision(vec2 posA, vec2 velA, float massA, 
+	vec2 posB, vec2 velB, float massB, 
+	float elasticity, vec2 normal)
+{
+	//calculate relative velocity
+	vec2 relVel = velA - velB;
+	//calculate impulse magnitude to apply
+	float impulseMag = glm::dot(-(1.0f + elasticity) * relVel, normal) /
+					   glm::dot(normal, normal * (1 / massA + 1 / massB));
 
+	return impulseMag;
+}
+
+void resolvePhysBodies(PhysObject &lhs, PhysObject &rhs, float elasticity, const glm::vec2 &normal, float& pen){
+	//calculate our resolution impulse
+	float impluseMagnitude = resolveCollision(lhs.pos, lhs.vel, lhs.mass,
+											  rhs.pos, rhs.vel, rhs.mass,
+											  elasticity, normal);
+	vec2 impulse = impluseMagnitude * normal;
+	//depenetrate the objects
+	pen *= .51;
+	//apply resolution forces/impulses to both objects
+	vec2 correction = normal * pen;
+	lhs.pos += correction;
+	lhs.addImpulse(impulse);
+	rhs.pos -= correction;
+	rhs.addImpulse(-impulse);
+}

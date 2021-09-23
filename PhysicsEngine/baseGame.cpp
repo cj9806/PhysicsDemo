@@ -8,9 +8,13 @@ baseGame::baseGame() {
 	accumulatedFixedTime = 0;
 	targetFixedStep = 1.0f / 30.0f;
 	//maxFixedStep = targetFixedStep * 3.0f;
-	colmap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::CIRCLE)] = checkCircleCircle;
-	colmap[static_cast<collisionPair>(shapeType::AABB   | shapeType::AABB  )] = checkAABBAABB;
-	colmap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::AABB  )] = checkCircAABB;
+	colMap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::CIRCLE)] = checkCircleCircle;
+	colMap[static_cast<collisionPair>(shapeType::AABB   | shapeType::AABB  )] = checkAABBAABB;
+	colMap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::AABB  )] = checkCircAABB;
+
+	depMap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::CIRCLE)] = depenetrateCircleCircle;
+	depMap[static_cast<collisionPair>(shapeType::AABB   | shapeType::AABB  )] = depenetrateAABBAABB;
+	depMap[static_cast<collisionPair>(shapeType::CIRCLE | shapeType::AABB  )] = depenetrateCircAABB;
 }
 
 
@@ -52,10 +56,17 @@ void baseGame::tickFixed() {
 			}
 
 			collisionPair pair = (collisionPair)(objs[lhs].collider.type | objs[rhs].collider.type);
-			bool collision = colmap[pair](objs[lhs].pos, objs[lhs].collider,
+			bool collision = colMap[pair](objs[lhs].pos, objs[lhs].collider,
 				objs[rhs].pos, objs[rhs].collider);
 			if (collision) {
-				std::cout << "collision at" << accumulatedFixedTime<<std::endl;
+				//do thing
+				float pen = 0.0f;
+				vec2 normal = depMap[pair](objs[lhs].pos, objs[lhs].collider,
+					objs[rhs].pos, objs[rhs].collider,
+					pen);
+
+				resolvePhysBodies(objs[lhs], objs[rhs], 1.0f, normal, pen);
+
 			}
 		}
 	}

@@ -3,11 +3,17 @@
 #include<vector>
 #include<unordered_map>
 using std::vector;
+
+//collision map
 using collisionPair = uint8_t;
 using collisionFunc = bool(*)(const glm::vec2&, const Shape&, const glm::vec2&, const Shape&);
 using collisionMap = std::unordered_map<collisionPair, collisionFunc>;
+
+using depenFunc = vec2(*)(const vec2 & posA, const Shape & shapeA, const vec2 & posB, const Shape & shapeB, float& pen);
+using depenMap = std::unordered_map < collisionPair, depenFunc>;
 class baseGame {
-    collisionMap colmap;
+    collisionMap colMap;
+    depenMap depMap;
 protected:
 
     float accumulatedFixedTime;
