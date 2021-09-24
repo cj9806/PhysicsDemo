@@ -10,10 +10,6 @@ void DemoGame::onDraw() const{
 	
 }
 void DemoGame::onTickFixed() {
-	/*for (int i=0; i < objs.size();i++)
-	{
-	
-	}*/
 	
 }
 void DemoGame::onTick() {
