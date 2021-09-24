@@ -24,11 +24,8 @@ struct Shape {
 	};
 };
 
-bool checkCircleCircle(glm::vec2 posA, Circle circleA, glm::vec2 posB, Circle circleB);
 bool checkCircleCircle(const glm::vec2& posA, const Shape& shapeA, const glm::vec2& posB, const Shape& shapeB);
-bool checkAABBAABB(glm::vec2 posA, AABB rectA, glm::vec2 posB, AABB rectB);
 bool checkAABBAABB(const glm::vec2& posA, const Shape& shapeA, const glm::vec2& posB, const Shape& shapeB);
-bool checkCircAABB(glm::vec2 circPos, Circle circle, glm::vec2 rectPos, AABB rect);
 bool checkCircAABB(const glm::vec2& posA, const Shape& shapeA, const glm::vec2& posB, const Shape& shapeB);
 
 glm::vec2 depenetrateCircleCircle(const glm::vec2& posA, const Shape& shapeA, const glm::vec2& posB, const Shape& shapeB, float& pen);

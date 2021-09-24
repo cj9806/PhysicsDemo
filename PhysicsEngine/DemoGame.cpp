@@ -7,7 +7,9 @@ void DemoGame::onDraw() const{
 	{
 		objs[i].draw();
 	}
-	
+	DrawText("Left click to spawn a circle", 10, 10, 20, BLACK);
+	DrawText("Right Click to spawn a rectangle", 10, 30, 20, BLACK);
+	DrawText("Middle click tp spawn a Static square", 10, 50, 20, BLACK);
 }
 void DemoGame::onTickFixed() {
 	
